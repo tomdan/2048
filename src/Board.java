@@ -1,8 +1,9 @@
 import javax.swing.*;
 import java.awt.*;
 import java.util.Random;
+import java.awt.event.*;
 
-public class Board extends JPanel {
+public class Board extends JPanel implements ActionListener {
 	
 	// BOARD_SIZE is the number of tiles on the game board, used in two-dimensional array of tiles
 	static final int BOARD_SIZE = 4;
@@ -18,6 +19,7 @@ public class Board extends JPanel {
 
         this.setFocusable(true);
         this.setLayout(new GridLayout(BOARD_SIZE, BOARD_SIZE, TILE_GAP, TILE_GAP));
+        this.addKeyListener(new MyKeyAdapter());
     
         // adds all tiles to the game board panel
         for (int i = 0; i < BOARD_SIZE; i++) {
@@ -128,6 +130,36 @@ public class Board extends JPanel {
                     }
                 }
                 break;
+        }
+    }
+
+	
+	@Override
+    public void actionPerformed(ActionEvent e) {
+        repaint();
+    }
+	
+	public class MyKeyAdapter extends KeyAdapter {
+        @Override
+        public void keyPressed(KeyEvent e) {
+            switch (e.getKeyCode()) {
+                case KeyEvent.VK_LEFT:
+                    move('L');
+                    put2or4Tile();
+                    break;
+                case KeyEvent.VK_RIGHT:
+                    move('R');
+                    put2or4Tile();
+                    break;
+                case KeyEvent.VK_UP:
+                    move('U');
+                    put2or4Tile();
+                    break;
+                case KeyEvent.VK_DOWN:
+                    move('D');
+                    put2or4Tile();
+                    break;
+            }
         }
     }
 	
