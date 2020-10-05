@@ -31,7 +31,7 @@ public class Tile extends JLabel {
 		if (powerOfTwo == 0) {
             this.setText(" ");
         } else {
-            this.setText(Double.toString(Math.pow(2,powerOfTwo)));
+            this.setText(Integer.toString((int)(Math.pow(2,powerOfTwo))));
         }
 	}
     
