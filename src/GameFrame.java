@@ -8,12 +8,21 @@ public class GameFrame extends JFrame {
     
     GameFrame() {
 
-        // FRAME
+        // FRAME OPTIONS
         this.setTitle("My 2048 game");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
+        
+        // FRAME COMPONENTS
+        this.add(new Board());
+        
+        // FRAME VISIBLE AND CENTER
         this.setVisible(true);
         this.setLocationRelativeTo(null);
+        
+        
+        
+        
 
     }
 }
