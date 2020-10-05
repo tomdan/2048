@@ -31,7 +31,7 @@ public class Board extends JPanel {
         this.put2or4Tile();
 	}
 	
-	//this function puts a new tile
+	// this function puts a new tile
 	public void put2or4Tile() {
         int row = 0;
         int column = 0;
@@ -61,6 +61,73 @@ public class Board extends JPanel {
                 column = random_number.nextInt(BOARD_SIZE);
             } while (tiles[column][row].getPowerOfTwo() != 0);
             tiles[column][row].setPowerOfTwo(x2or4);
+        }
+    }
+	
+	// this is the function that moves the tiles
+	public void move(char direction) {
+        boolean done_move = true;
+        switch (direction) { // direction is UP RIGHT DOWN LEFT
+            case 'U': // UP MOVE
+                for (int c = 0; c < BOARD_SIZE; c++) {
+                    done_move = true;
+                    while (done_move) {
+                        done_move = false;
+                        for (int r = 0; r < BOARD_SIZE - 1; r++) {
+                            if (tiles[c][r].getPowerOfTwo() == 0 && tiles[c][r + 1].getPowerOfTwo() != 0) {
+                                tiles[c][r].setPowerOfTwo(tiles[c][r + 1].getPowerOfTwo());
+                                tiles[c][r + 1].setPowerOfTwo(0);
+                                done_move = true;
+                            }
+                        }
+                    }
+                }
+                break;
+            case 'D': // DOWN MOVE
+                for (int c = 0; c < BOARD_SIZE; c++) {
+                    done_move = true;
+                    while (done_move) {
+                        done_move = false;
+                        for (int r = BOARD_SIZE - 1; r > 0; r--) {
+                            if (tiles[c][r].getPowerOfTwo() == 0 && tiles[c][r - 1].getPowerOfTwo() != 0) {
+                                tiles[c][r].setPowerOfTwo(tiles[c][r - 1].getPowerOfTwo());
+                                tiles[c][r - 1].setPowerOfTwo(0);
+                                done_move = true;
+                            }
+                        }
+                    }
+                }
+                break;
+            case 'L': // LEFT MOVE
+                for (int r = 0; r < BOARD_SIZE; r++) {
+                    done_move = true;
+                    while (done_move) {
+                        done_move = false;
+                        for (int c = 0; c < BOARD_SIZE - 1; c++) {
+                            if (tiles[c][r].getPowerOfTwo() == 0 && tiles[c + 1][r].getPowerOfTwo() != 0) {
+                                tiles[c][r].setPowerOfTwo(tiles[c + 1][r].getPowerOfTwo());
+                                tiles[c + 1][r].setPowerOfTwo(0);
+                                done_move = true;
+                            }
+                        }
+                    }
+                }
+                break;
+            case 'R': // RIGHT MOVE
+                for (int r = 0; r < BOARD_SIZE; r++) {
+                    done_move = true;
+                    while (done_move) {
+                        done_move = false;
+                        for (int c = BOARD_SIZE - 1; c > 0; c--) {
+                            if (tiles[c][r].getPowerOfTwo() == 0 && tiles[c - 1][r].getPowerOfTwo() != 0) {
+                                tiles[c][r].setPowerOfTwo(tiles[c - 1][r].getPowerOfTwo());
+                                tiles[c - 1][r].setPowerOfTwo(0);
+                                done_move = true;
+                            }
+                        }
+                    }
+                }
+                break;
         }
     }
 	
