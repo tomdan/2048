@@ -14,6 +14,7 @@ public class Board extends JPanel implements ActionListener {
     Tile[][] tiles = new Tile[BOARD_SIZE][BOARD_SIZE];
     
     Random random_number = new Random();
+    int score = 0;
     
 	Board() {
 
@@ -29,9 +30,22 @@ public class Board extends JPanel implements ActionListener {
             }
         }
         
-        this.put2or4Tile();
-        this.put2or4Tile();
+        this.startNewGame();
+        
 	}
+	
+	public void startNewGame() {
+
+        for (int i = 0; i < BOARD_SIZE; i++) {
+            for (int k = 0; k < BOARD_SIZE; k++) {
+                tiles[k][i].setPowerOfTwo(0);
+            }
+        }
+
+        score = 0;
+        this.put2or4Tile();
+        this.put2or4Tile();
+    }
 	
 	// this function puts a new tile
 	public void put2or4Tile() {
@@ -64,6 +78,10 @@ public class Board extends JPanel implements ActionListener {
             } while (tiles[column][row].getPowerOfTwo() != 0);
             tiles[column][row].setPowerOfTwo(x2or4);
         }
+    }
+	
+	public int getScore() {
+        return score;
     }
 	
 	// this is the function that moves the tiles
@@ -145,6 +163,7 @@ public class Board extends JPanel implements ActionListener {
                     current_column = c;
                 } else if (tiles[current_column][r].getPowerOfTwo() == tiles[c][r].getPowerOfTwo()) {
                     tiles[current_column][r].setPowerOfTwo(tiles[current_column][r].getPowerOfTwo() + 1);
+                    score += Math.pow(2, tiles[current_column][r].getPowerOfTwo());
                     tiles[c][r].setPowerOfTwo(0);
                     current_column = -1;
                 }
@@ -164,6 +183,7 @@ public class Board extends JPanel implements ActionListener {
                     current_column = c;
                 } else if (tiles[current_column][r].getPowerOfTwo() == tiles[c][r].getPowerOfTwo()) {
                     tiles[current_column][r].setPowerOfTwo(tiles[current_column][r].getPowerOfTwo() + 1);
+                    score += Math.pow(2, tiles[current_column][r].getPowerOfTwo());
                     tiles[c][r].setPowerOfTwo(0);
                     current_column = -1;
                 }
@@ -182,6 +202,7 @@ public class Board extends JPanel implements ActionListener {
                     current_row = r;
                 } else if (tiles[c][current_row].getPowerOfTwo() == tiles[c][r].getPowerOfTwo()) {
                     tiles[c][current_row].setPowerOfTwo(tiles[c][current_row].getPowerOfTwo() + 1);
+                    score += Math.pow(2, tiles[c][current_row].getPowerOfTwo());
                     tiles[c][r].setPowerOfTwo(0);
                     current_row = -1;
                 }
@@ -200,6 +221,7 @@ public class Board extends JPanel implements ActionListener {
                     current_row = r;
                 } else if (tiles[c][current_row].getPowerOfTwo() == tiles[c][r].getPowerOfTwo()) {
                     tiles[c][current_row].setPowerOfTwo(tiles[c][current_row].getPowerOfTwo() + 1);
+                    score += Math.pow(2, tiles[c][current_row].getPowerOfTwo());
                     tiles[c][r].setPowerOfTwo(0);
                     current_row = -1;
                 }
