@@ -171,6 +171,42 @@ public class Board extends JPanel implements ActionListener {
         }
     }
 	
+	public void upMerge() {
+        int current_row = -1;
+        for (int c = 0; c < BOARD_SIZE; c++) {
+            current_row = -1;
+            for (int r = 0; r < BOARD_SIZE; r++) {
+                if (tiles[c][r].getPowerOfTwo() == 0) {
+                    continue;
+                } else if (current_row == -1 || tiles[c][current_row].getPowerOfTwo() != tiles[c][r].getPowerOfTwo()) {
+                    current_row = r;
+                } else if (tiles[c][current_row].getPowerOfTwo() == tiles[c][r].getPowerOfTwo()) {
+                    tiles[c][current_row].setPowerOfTwo(tiles[c][current_row].getPowerOfTwo() + 1);
+                    tiles[c][r].setPowerOfTwo(0);
+                    current_row = -1;
+                }
+            }
+        }
+    }
+	
+	public void downMerge() {
+        int current_row = -1;
+        for (int c = 0; c < BOARD_SIZE; c++) {
+            current_row = -1;
+            for (int r = BOARD_SIZE - 1; r >= 0; r--) {
+                if (tiles[c][r].getPowerOfTwo() == 0) {
+                    continue;
+                } else if (current_row == -1 || tiles[c][current_row].getPowerOfTwo() != tiles[c][r].getPowerOfTwo()) {
+                    current_row = r;
+                } else if (tiles[c][current_row].getPowerOfTwo() == tiles[c][r].getPowerOfTwo()) {
+                    tiles[c][current_row].setPowerOfTwo(tiles[c][current_row].getPowerOfTwo() + 1);
+                    tiles[c][r].setPowerOfTwo(0);
+                    current_row = -1;
+                }
+            }
+        }
+    }
+	
 	@Override
     public void actionPerformed(ActionEvent e) {
         repaint();
@@ -191,10 +227,12 @@ public class Board extends JPanel implements ActionListener {
                     put2or4Tile();
                     break;
                 case KeyEvent.VK_UP:
+                	upMerge();
                     move('U');
                     put2or4Tile();
                     break;
                 case KeyEvent.VK_DOWN:
+                	downMerge();
                     move('D');
                     put2or4Tile();
                     break;
