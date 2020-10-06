@@ -133,6 +133,43 @@ public class Board extends JPanel implements ActionListener {
         }
     }
 
+	public void leftMerge() {
+        int current_column = -1;
+        for (int r = 0; r < BOARD_SIZE; r++) {
+            current_column = -1;
+            for (int c = 0; c < BOARD_SIZE; c++) {
+                if (tiles[c][r].getPowerOfTwo() == 0) {
+                    continue;
+                } else if (current_column == -1
+                        || tiles[current_column][r].getPowerOfTwo() != tiles[c][r].getPowerOfTwo()) {
+                    current_column = c;
+                } else if (tiles[current_column][r].getPowerOfTwo() == tiles[c][r].getPowerOfTwo()) {
+                    tiles[current_column][r].setPowerOfTwo(tiles[current_column][r].getPowerOfTwo() + 1);
+                    tiles[c][r].setPowerOfTwo(0);
+                    current_column = -1;
+                }
+            }
+        }
+    }
+	
+	public void rightMerge() {
+        int current_column = -1;
+        for (int r = 0; r < BOARD_SIZE; r++) {
+            current_column = -1;
+            for (int c = BOARD_SIZE - 1; c >= 0; c--) {
+                if (tiles[c][r].getPowerOfTwo() == 0) {
+                    continue;
+                } else if (current_column == -1
+                        || tiles[current_column][r].getPowerOfTwo() != tiles[c][r].getPowerOfTwo()) {
+                    current_column = c;
+                } else if (tiles[current_column][r].getPowerOfTwo() == tiles[c][r].getPowerOfTwo()) {
+                    tiles[current_column][r].setPowerOfTwo(tiles[current_column][r].getPowerOfTwo() + 1);
+                    tiles[c][r].setPowerOfTwo(0);
+                    current_column = -1;
+                }
+            }
+        }
+    }
 	
 	@Override
     public void actionPerformed(ActionEvent e) {
@@ -144,10 +181,12 @@ public class Board extends JPanel implements ActionListener {
         public void keyPressed(KeyEvent e) {
             switch (e.getKeyCode()) {
                 case KeyEvent.VK_LEFT:
+                	leftMerge();
                     move('L');
                     put2or4Tile();
                     break;
                 case KeyEvent.VK_RIGHT:
+                	rightMerge();
                     move('R');
                     put2or4Tile();
                     break;
