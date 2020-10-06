@@ -133,7 +133,7 @@ public class Board extends JPanel implements ActionListener {
         }
     }
 
-	public void leftMerge() {
+	void leftMerge() {
         int current_column = -1;
         for (int r = 0; r < BOARD_SIZE; r++) {
             current_column = -1;
@@ -152,7 +152,7 @@ public class Board extends JPanel implements ActionListener {
         }
     }
 	
-	public void rightMerge() {
+	void rightMerge() {
         int current_column = -1;
         for (int r = 0; r < BOARD_SIZE; r++) {
             current_column = -1;
@@ -171,7 +171,7 @@ public class Board extends JPanel implements ActionListener {
         }
     }
 	
-	public void upMerge() {
+	void upMerge() {
         int current_row = -1;
         for (int c = 0; c < BOARD_SIZE; c++) {
             current_row = -1;
@@ -189,7 +189,7 @@ public class Board extends JPanel implements ActionListener {
         }
     }
 	
-	public void downMerge() {
+	void downMerge() {
         int current_row = -1;
         for (int c = 0; c < BOARD_SIZE; c++) {
             current_row = -1;
@@ -207,6 +207,120 @@ public class Board extends JPanel implements ActionListener {
         }
     }
 	
+	boolean leftMoveTest() {
+        for (int r = 0; r < BOARD_SIZE; r++) {
+            for (int c = 0; c < BOARD_SIZE - 1; c++) {
+                if (tiles[c][r].getPowerOfTwo() == 0 && tiles[c + 1][r].getPowerOfTwo() != 0) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+	boolean rightMoveTest() {
+        for (int r = 0; r < BOARD_SIZE; r++) {
+            for (int c = BOARD_SIZE - 1; c > 0; c--) {
+                if (tiles[c][r].getPowerOfTwo() == 0 && tiles[c - 1][r].getPowerOfTwo() != 0) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+	
+	boolean upMoveTest() {
+        for (int c = 0; c < BOARD_SIZE; c++) {
+            for (int r = 0; r < BOARD_SIZE - 1; r++) {
+                if (tiles[c][r].getPowerOfTwo() == 0 && tiles[c][r + 1].getPowerOfTwo() != 0) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+	
+	boolean downMoveTest() {
+        for (int c = 0; c < BOARD_SIZE; c++) {
+            for (int r = BOARD_SIZE - 1; r > 0; r--) {
+                if (tiles[c][r].getPowerOfTwo() == 0 && tiles[c][r - 1].getPowerOfTwo() != 0) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+	
+	boolean leftMergeTest() {
+        int current_column = -1;
+        for (int r = 0; r < BOARD_SIZE; r++) {
+            current_column = -1;
+            for (int c = 0; c < BOARD_SIZE; c++) {
+                if (tiles[c][r].getPowerOfTwo() == 0) {
+                    continue;
+                } else if (current_column == -1
+                        || tiles[current_column][r].getPowerOfTwo() != tiles[c][r].getPowerOfTwo()) {
+                    current_column = c;
+                } else if (tiles[current_column][r].getPowerOfTwo() == tiles[c][r].getPowerOfTwo()) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+	
+	boolean rightMergeTest() {
+        int current_column = -1;
+        for (int r = 0; r < BOARD_SIZE; r++) {
+            current_column = -1;
+            for (int c = BOARD_SIZE - 1; c >= 0; c--) {
+                if (tiles[c][r].getPowerOfTwo() == 0) {
+                    continue;
+                } else if (current_column == -1
+                        || tiles[current_column][r].getPowerOfTwo() != tiles[c][r].getPowerOfTwo()) {
+                    current_column = c;
+                } else if (tiles[current_column][r].getPowerOfTwo() == tiles[c][r].getPowerOfTwo()) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+	
+	boolean upMergeTest() {
+        int current_row = -1;
+        for (int c = 0; c < BOARD_SIZE; c++) {
+            current_row = -1;
+            for (int r = 0; r < BOARD_SIZE; r++) {
+                if (tiles[c][r].getPowerOfTwo() == 0) {
+                    continue;
+                } else if (current_row == -1 || tiles[c][current_row].getPowerOfTwo() != tiles[c][r].getPowerOfTwo()) {
+                    current_row = r;
+                } else if (tiles[c][current_row].getPowerOfTwo() == tiles[c][r].getPowerOfTwo()) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+	
+	boolean downMergeTest() {
+        int current_row = -1;
+        for (int c = 0; c < BOARD_SIZE; c++) {
+            current_row = -1;
+            for (int r = BOARD_SIZE - 1; r >= 0; r--) {
+                if (tiles[c][r].getPowerOfTwo() == 0) {
+                    continue;
+                } else if (current_row == -1 || tiles[c][current_row].getPowerOfTwo() != tiles[c][r].getPowerOfTwo()) {
+                    current_row = r;
+                } else if (tiles[c][current_row].getPowerOfTwo() == tiles[c][r].getPowerOfTwo()) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+	
 	@Override
     public void actionPerformed(ActionEvent e) {
         repaint();
@@ -217,24 +331,32 @@ public class Board extends JPanel implements ActionListener {
         public void keyPressed(KeyEvent e) {
             switch (e.getKeyCode()) {
                 case KeyEvent.VK_LEFT:
-                	leftMerge();
-                    move('L');
-                    put2or4Tile();
-                    break;
+                	if (leftMoveTest() || leftMergeTest()) {
+                        leftMerge();
+                        move('L');
+                        put2or4Tile();
+                    }
+                	break;
                 case KeyEvent.VK_RIGHT:
-                	rightMerge();
-                    move('R');
-                    put2or4Tile();
-                    break;
+                	if (rightMoveTest() || rightMergeTest()) {
+                        rightMerge();
+                        move('R');
+                        put2or4Tile();
+                    }
+                	break;
                 case KeyEvent.VK_UP:
-                	upMerge();
-                    move('U');
-                    put2or4Tile();
+                	if (upMoveTest() || upMergeTest()) {
+                        upMerge();
+                        move('U');
+                        put2or4Tile();
+                    }
                     break;
                 case KeyEvent.VK_DOWN:
-                	downMerge();
-                    move('D');
-                    put2or4Tile();
+                	if (downMoveTest() || downMergeTest()) {
+                        downMerge();
+                        move('D');
+                        put2or4Tile();
+                    }
                     break;
             }
         }
