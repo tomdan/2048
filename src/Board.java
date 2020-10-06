@@ -29,9 +29,21 @@ public class Board extends JPanel implements ActionListener {
             }
         }
         
-        this.put2or4Tile();
-        this.put2or4Tile();
+        this.startNewGame();
+        
 	}
+	
+	public void startNewGame() {
+
+        for (int i = 0; i < BOARD_SIZE; i++) {
+            for (int k = 0; k < BOARD_SIZE; k++) {
+                tiles[k][i].setPowerOfTwo(0);
+            }
+        }
+
+        this.put2or4Tile();
+        this.put2or4Tile();
+    }
 	
 	// this function puts a new tile
 	public void put2or4Tile() {
