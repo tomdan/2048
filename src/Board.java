@@ -4,24 +4,25 @@ import java.util.Random;
 import java.awt.event.*;
 
 public class Board extends JPanel implements ActionListener {
-	
-	// BOARD_SIZE is the number of tiles on the game board, used in two-dimensional array of tiles
-	static final int BOARD_SIZE = 4;
+
+    // BOARD_SIZE is the number of tiles on the game board, used in two-dimensional
+    // array of tiles
+    static final int BOARD_SIZE = 4;
     // the gap of tiles on board, used in the GridLayout
     static final int TILE_GAP = 5;
-    
+
     // Tiles on the board - Tiles[column][row]
     Tile[][] tiles = new Tile[BOARD_SIZE][BOARD_SIZE];
-    
+
     Random random_number = new Random();
     int score = 0;
-    
-	Board() {
+
+    Board() {
 
         this.setFocusable(true);
         this.setLayout(new GridLayout(BOARD_SIZE, BOARD_SIZE, TILE_GAP, TILE_GAP));
         this.addKeyListener(new MyKeyAdapter());
-    
+
         // adds all tiles to the game board panel
         for (int i = 0; i < BOARD_SIZE; i++) {
             for (int j = 0; j < BOARD_SIZE; j++) {
@@ -29,12 +30,12 @@ public class Board extends JPanel implements ActionListener {
                 this.add(tiles[j][i]);
             }
         }
-        
+
         this.startNewGame();
-        
-	}
-	
-	public void startNewGame() {
+
+    }
+
+    public void startNewGame() {
 
         for (int i = 0; i < BOARD_SIZE; i++) {
             for (int k = 0; k < BOARD_SIZE; k++) {
@@ -46,9 +47,9 @@ public class Board extends JPanel implements ActionListener {
         this.put2or4Tile();
         this.put2or4Tile();
     }
-	
-	// this function puts a new tile
-	public void put2or4Tile() {
+
+    // this function puts a new tile
+    public void put2or4Tile() {
         int row = 0;
         int column = 0;
         int x2or4 = random_number.nextInt(100);
@@ -79,13 +80,13 @@ public class Board extends JPanel implements ActionListener {
             tiles[column][row].setPowerOfTwo(x2or4);
         }
     }
-	
-	public int getScore() {
+
+    public int getScore() {
         return score;
     }
-	
-	// this is the function that moves the tiles
-	public void move(char direction) {
+
+    // this is the function that moves the tiles
+    public void move(char direction) {
         boolean done_move = true;
         switch (direction) { // direction is UP RIGHT DOWN LEFT
             case 'U': // UP MOVE
@@ -151,7 +152,7 @@ public class Board extends JPanel implements ActionListener {
         }
     }
 
-	void leftMerge() {
+    void leftMerge() {
         int current_column = -1;
         for (int r = 0; r < BOARD_SIZE; r++) {
             current_column = -1;
@@ -170,8 +171,8 @@ public class Board extends JPanel implements ActionListener {
             }
         }
     }
-	
-	void rightMerge() {
+
+    void rightMerge() {
         int current_column = -1;
         for (int r = 0; r < BOARD_SIZE; r++) {
             current_column = -1;
@@ -190,8 +191,8 @@ public class Board extends JPanel implements ActionListener {
             }
         }
     }
-	
-	void upMerge() {
+
+    void upMerge() {
         int current_row = -1;
         for (int c = 0; c < BOARD_SIZE; c++) {
             current_row = -1;
@@ -209,8 +210,8 @@ public class Board extends JPanel implements ActionListener {
             }
         }
     }
-	
-	void downMerge() {
+
+    void downMerge() {
         int current_row = -1;
         for (int c = 0; c < BOARD_SIZE; c++) {
             current_row = -1;
@@ -228,8 +229,8 @@ public class Board extends JPanel implements ActionListener {
             }
         }
     }
-	
-	boolean leftMoveTest() {
+
+    boolean leftMoveTest() {
         for (int r = 0; r < BOARD_SIZE; r++) {
             for (int c = 0; c < BOARD_SIZE - 1; c++) {
                 if (tiles[c][r].getPowerOfTwo() == 0 && tiles[c + 1][r].getPowerOfTwo() != 0) {
@@ -240,7 +241,7 @@ public class Board extends JPanel implements ActionListener {
         return false;
     }
 
-	boolean rightMoveTest() {
+    boolean rightMoveTest() {
         for (int r = 0; r < BOARD_SIZE; r++) {
             for (int c = BOARD_SIZE - 1; c > 0; c--) {
                 if (tiles[c][r].getPowerOfTwo() == 0 && tiles[c - 1][r].getPowerOfTwo() != 0) {
@@ -250,8 +251,8 @@ public class Board extends JPanel implements ActionListener {
         }
         return false;
     }
-	
-	boolean upMoveTest() {
+
+    boolean upMoveTest() {
         for (int c = 0; c < BOARD_SIZE; c++) {
             for (int r = 0; r < BOARD_SIZE - 1; r++) {
                 if (tiles[c][r].getPowerOfTwo() == 0 && tiles[c][r + 1].getPowerOfTwo() != 0) {
@@ -261,8 +262,8 @@ public class Board extends JPanel implements ActionListener {
         }
         return false;
     }
-	
-	boolean downMoveTest() {
+
+    boolean downMoveTest() {
         for (int c = 0; c < BOARD_SIZE; c++) {
             for (int r = BOARD_SIZE - 1; r > 0; r--) {
                 if (tiles[c][r].getPowerOfTwo() == 0 && tiles[c][r - 1].getPowerOfTwo() != 0) {
@@ -272,8 +273,8 @@ public class Board extends JPanel implements ActionListener {
         }
         return false;
     }
-	
-	boolean leftMergeTest() {
+
+    boolean leftMergeTest() {
         int current_column = -1;
         for (int r = 0; r < BOARD_SIZE; r++) {
             current_column = -1;
@@ -290,8 +291,8 @@ public class Board extends JPanel implements ActionListener {
         }
         return false;
     }
-	
-	boolean rightMergeTest() {
+
+    boolean rightMergeTest() {
         int current_column = -1;
         for (int r = 0; r < BOARD_SIZE; r++) {
             current_column = -1;
@@ -308,8 +309,8 @@ public class Board extends JPanel implements ActionListener {
         }
         return false;
     }
-	
-	boolean upMergeTest() {
+
+    boolean upMergeTest() {
         int current_row = -1;
         for (int c = 0; c < BOARD_SIZE; c++) {
             current_row = -1;
@@ -325,8 +326,8 @@ public class Board extends JPanel implements ActionListener {
         }
         return false;
     }
-	
-	boolean downMergeTest() {
+
+    boolean downMergeTest() {
         int current_row = -1;
         for (int c = 0; c < BOARD_SIZE; c++) {
             current_row = -1;
@@ -342,39 +343,39 @@ public class Board extends JPanel implements ActionListener {
         }
         return false;
     }
-	
-	@Override
+
+    @Override
     public void actionPerformed(ActionEvent e) {
         repaint();
     }
-	
-	public class MyKeyAdapter extends KeyAdapter {
+
+    public class MyKeyAdapter extends KeyAdapter {
         @Override
         public void keyPressed(KeyEvent e) {
             switch (e.getKeyCode()) {
                 case KeyEvent.VK_LEFT:
-                	if (leftMoveTest() || leftMergeTest()) {
+                    if (leftMoveTest() || leftMergeTest()) {
                         leftMerge();
                         move('L');
                         put2or4Tile();
                     }
-                	break;
+                    break;
                 case KeyEvent.VK_RIGHT:
-                	if (rightMoveTest() || rightMergeTest()) {
+                    if (rightMoveTest() || rightMergeTest()) {
                         rightMerge();
                         move('R');
                         put2or4Tile();
                     }
-                	break;
+                    break;
                 case KeyEvent.VK_UP:
-                	if (upMoveTest() || upMergeTest()) {
+                    if (upMoveTest() || upMergeTest()) {
                         upMerge();
                         move('U');
                         put2or4Tile();
                     }
                     break;
                 case KeyEvent.VK_DOWN:
-                	if (downMoveTest() || downMergeTest()) {
+                    if (downMoveTest() || downMergeTest()) {
                         downMerge();
                         move('D');
                         put2or4Tile();
@@ -383,5 +384,4 @@ public class Board extends JPanel implements ActionListener {
             }
         }
     }
-	
 }
