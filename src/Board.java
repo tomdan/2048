@@ -35,6 +35,23 @@ public class Board extends JPanel implements ActionListener {
 
     }
 
+    public boolean gameOver() {
+        // if there are empty tiles, the game continue
+        for (int i = 0; i < BOARD_SIZE; i++) {
+            for (int j = 0; j < BOARD_SIZE; j++) {
+                if (tiles[i][j].getPowerOfTwo() == 0)
+                    return false;
+            }
+        }
+
+        // if there aren't empty tiles, we check if can merge something
+        if (upMergeTest() || downMergeTest() || leftMergeTest() || rightMergeTest())
+            return false;
+
+        // it's game over now
+        return true;
+    }
+
     public void startNewGame() {
 
         for (int i = 0; i < BOARD_SIZE; i++) {
