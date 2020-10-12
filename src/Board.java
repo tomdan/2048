@@ -35,6 +35,17 @@ public class Board extends JPanel implements ActionListener {
 
     }
 
+    public boolean gameWin() {
+        // if there is tile of number 2048, player win the game
+        for (int i = 0; i < BOARD_SIZE; i++) {
+            for (int j = 0; j < BOARD_SIZE; j++) {
+                if (tiles[i][j].getPowerOfTwo() == 11)
+                    return true;
+            }
+        }
+        return false;
+    }
+
     public boolean gameOver() {
         // if there are empty tiles, the game continue
         for (int i = 0; i < BOARD_SIZE; i++) {
