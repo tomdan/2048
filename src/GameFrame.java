@@ -10,6 +10,7 @@ public class GameFrame extends JFrame implements ActionListener {
     static final int MENU_PANEL_WIDTH = 50;
     static final int MENU_PANEL_HEIGHT = 70;
     static final Color MENU_PANEL_COLOR = new Color(200, 200, 200);
+    static final Color WIN_TEXT_COLOR = new Color(0, 100, 0);
 
     ImageIcon myFrameIcon = new ImageIcon("img/icon.jpg");
 
@@ -23,6 +24,14 @@ public class GameFrame extends JFrame implements ActionListener {
     ActionListener task = new ActionListener() {
         public void actionPerformed(ActionEvent evt) {
             scoreLabel.setText(String.valueOf(gameBoard.getScore()));
+            if (gameBoard.gameOver()) {
+                textLabel.setForeground(Color.RED);
+                textLabel.setText("KONIEC GRY");
+            }
+            if (gameBoard.gameWin()) {
+                textLabel.setForeground(WIN_TEXT_COLOR);
+                textLabel.setText(" WYGRAŁEŚ ");
+            }
             repaint();
         }
     };
@@ -76,6 +85,7 @@ public class GameFrame extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == newGameButton) {
             gameBoard.startNewGame();
+            textLabel.setText(" ");
         }
     }
 }
