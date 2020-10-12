@@ -47,7 +47,7 @@ public class GameFrame extends JFrame implements ActionListener {
         // TEXT LABEL
         textLabel.setForeground(Color.BLACK);
         textLabel.setBounds(10, 40, 150, 30);
-        textLabel.setFont(new Font("MV Boli", Font.ROMAN_BASELINE, 20));
+        textLabel.setFont(new Font("Times New Roman", Font.ROMAN_BASELINE, 20));
         textLabel.setHorizontalAlignment(JLabel.CENTER);
 
         // SCORE LABEL
