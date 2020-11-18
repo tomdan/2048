@@ -56,7 +56,7 @@ public class Board extends JPanel implements ActionListener {
         }
 
         // if there aren't empty tiles, we check if can merge something
-        if (upMergeTest() || downMergeTest() || leftMergeTest() || rightMergeTest())
+        if (verticalMergeTest() || leftMergeTest() || rightMergeTest())
             return false;
 
         // it's game over now
@@ -338,28 +338,12 @@ public class Board extends JPanel implements ActionListener {
         return false;
     }
 
-    boolean upMergeTest() {
+    // this function checks if vertical merge of the tiles is possible
+    private boolean verticalMergeTest() {
         int current_row = -1;
         for (int c = 0; c < BOARD_SIZE; c++) {
             current_row = -1;
             for (int r = 0; r < BOARD_SIZE; r++) {
-                if (tiles[c][r].getPowerOfTwo() == 0) {
-                    continue;
-                } else if (current_row == -1 || tiles[c][current_row].getPowerOfTwo() != tiles[c][r].getPowerOfTwo()) {
-                    current_row = r;
-                } else if (tiles[c][current_row].getPowerOfTwo() == tiles[c][r].getPowerOfTwo()) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    boolean downMergeTest() {
-        int current_row = -1;
-        for (int c = 0; c < BOARD_SIZE; c++) {
-            current_row = -1;
-            for (int r = BOARD_SIZE - 1; r >= 0; r--) {
                 if (tiles[c][r].getPowerOfTwo() == 0) {
                     continue;
                 } else if (current_row == -1 || tiles[c][current_row].getPowerOfTwo() != tiles[c][r].getPowerOfTwo()) {
@@ -396,14 +380,14 @@ public class Board extends JPanel implements ActionListener {
                     }
                     break;
                 case KeyEvent.VK_UP:
-                    if (upMoveTest() || upMergeTest()) {
+                    if (upMoveTest() || verticalMergeTest()) {
                         upMerge();
                         move('U');
                         put2or4Tile();
                     }
                     break;
                 case KeyEvent.VK_DOWN:
-                    if (downMoveTest() || downMergeTest()) {
+                    if (downMoveTest() || verticalMergeTest()) {
                         downMerge();
                         move('D');
                         put2or4Tile();
