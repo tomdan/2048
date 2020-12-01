@@ -56,7 +56,7 @@ public class Board extends JPanel implements ActionListener {
         }
 
         // if there aren't empty tiles, we check if can merge something
-        if (verticalMergeTest() || leftMergeTest() || rightMergeTest())
+        if (verticalMergeTest() || horizontalMergeTest())
             return false;
 
         // it's game over now
@@ -302,29 +302,12 @@ public class Board extends JPanel implements ActionListener {
         return false;
     }
 
-    boolean leftMergeTest() {
+    // this function checks if horizontal merge of the tiles is possible
+    private boolean horizontalMergeTest() {
         int current_column = -1;
         for (int r = 0; r < BOARD_SIZE; r++) {
             current_column = -1;
             for (int c = 0; c < BOARD_SIZE; c++) {
-                if (tiles[c][r].getPowerOfTwo() == 0) {
-                    continue;
-                } else if (current_column == -1
-                        || tiles[current_column][r].getPowerOfTwo() != tiles[c][r].getPowerOfTwo()) {
-                    current_column = c;
-                } else if (tiles[current_column][r].getPowerOfTwo() == tiles[c][r].getPowerOfTwo()) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    boolean rightMergeTest() {
-        int current_column = -1;
-        for (int r = 0; r < BOARD_SIZE; r++) {
-            current_column = -1;
-            for (int c = BOARD_SIZE - 1; c >= 0; c--) {
                 if (tiles[c][r].getPowerOfTwo() == 0) {
                     continue;
                 } else if (current_column == -1
@@ -366,14 +349,14 @@ public class Board extends JPanel implements ActionListener {
         public void keyPressed(KeyEvent e) {
             switch (e.getKeyCode()) {
                 case KeyEvent.VK_LEFT:
-                    if (leftMoveTest() || leftMergeTest()) {
+                    if (leftMoveTest() || horizontalMergeTest()) {
                         leftMerge();
                         move('L');
                         put2or4Tile();
                     }
                     break;
                 case KeyEvent.VK_RIGHT:
-                    if (rightMoveTest() || rightMergeTest()) {
+                    if (rightMoveTest() || horizontalMergeTest()) {
                         rightMerge();
                         move('R');
                         put2or4Tile();
